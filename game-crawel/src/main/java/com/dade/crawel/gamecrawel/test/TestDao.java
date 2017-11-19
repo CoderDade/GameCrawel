@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Mapper
-@Component
 public interface TestDao {
 
     @Select("select * from lol_user")
