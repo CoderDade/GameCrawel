@@ -4,8 +4,11 @@ import lombok.Data;
 
 @Data
 public class LOLGameInfoEntity {
-
-    String userId;
-    String gameId;
-
+    String seconds;
+    String team;
+    String x;
+    String y;
+    String killer;
+    String victim;
+    String assistings;
 }
