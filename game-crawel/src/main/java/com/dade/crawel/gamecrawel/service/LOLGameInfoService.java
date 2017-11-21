@@ -1,8 +1,9 @@
 package com.dade.crawel.gamecrawel.service;
 
 import com.alibaba.fastjson.JSON;
+import com.dade.crawel.gamecrawel.dal.entity.LOLGameInfoEntity;
 import com.dade.crawel.gamecrawel.dto.LOLGameInfoDTO;
-import com.google.common.collect.Lists;
+import com.dade.crawel.gamecrawel.dto.LOLGameInfoMsgDTO;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -16,15 +17,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @PropertySource("classpath:http.properties")
 public class LOLGameInfoService {
     @Value("${game_info_head}")
-    public String game_info_head;
+    private String game_info_head;
     @Value("${game_info_tail}")
-    public String game_info_tail;
+    private String game_info_tail;
 
     public LOLGameInfoDTO getUserIdByGameId(String gameId)  {
         if (StringUtils.isEmpty(gameId)){
@@ -47,28 +50,27 @@ public class LOLGameInfoService {
 
             LOLGameInfoDTO gameInfoDTO = JSON.parseObject(strResult, LOLGameInfoDTO.class);
             return gameInfoDTO;
-//            List<GameDetailEntity> res = Lists.newArrayList();
-//            userGameInfoEntity.getMsg().forEach(msg -> {
-//                if (msg.getAssisting() == null || msg.getAssisting().size() == 0) {
-//                    GameDetailEntity entity = new GameDetailEntity();
-//                    BeanUtils.copyProperties(msg, entity);
-//                    entity.setX(msg.getPosition().getX());
-//                    entity.setY(msg.getPosition().getY());
-//                    res.add(entity);
-//                    return;
-//                }else{
-//                    GameDetailEntity entity = new GameDetailEntity();
-//                    BeanUtils.copyProperties(msg, entity);
-//                    entity.setX(msg.getPosition().getX());
-//                    entity.setY(msg.getPosition().getY());
-//                    String join = String.join(",", msg.getAssisting());
-//                    entity.setAssistings(join);
-//                    res.add(entity);
-//                }
-//            });
         }catch (Exception e){
             return null;
         }
     }
+
+    public List<LOLGameInfoEntity> transformDTOToEntity(LOLGameInfoDTO gameInfoDTO){
+        if (gameInfoDTO == null || CollectionUtils.isEmpty(gameInfoDTO.getMsg())){
+            return Collections.emptyList();
+        }
+
+        List<LOLGameInfoMsgDTO> msgs = gameInfoDTO.getMsg();
+        return msgs.stream().map(msg -> {
+            LOLGameInfoEntity entity = new LOLGameInfoEntity();
+            BeanUtils.copyProperties(msg, entity);
+            entity.setX(msg.getPositionDTO() == null ? "" : msg.getPositionDTO().getX());
+            entity.setY(msg.getPositionDTO() == null ? "" : msg.getPositionDTO().getY());
+            entity.setAssistings(org.apache.commons.lang3.StringUtils.join(msg.getAssisting()));
+            return entity;
+        }).collect(Collectors.toList());
+
+    }
+
 
 }

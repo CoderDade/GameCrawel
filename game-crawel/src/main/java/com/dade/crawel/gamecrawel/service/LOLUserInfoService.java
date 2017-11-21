@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
 @PropertySource("classpath:http.properties")
 public class LOLUserInfoService {
     @Value("${user_info_head}")
-    public String user_info_head;
+    private String user_info_head;
     @Value("${user_info_tail}")
-    public String user_info_tail;
+    private String user_info_tail;
 
     public LOLUserInfoDTO getUserInfoDTOByUserId(String userId) {
         if (StringUtils.isEmpty(userId)){

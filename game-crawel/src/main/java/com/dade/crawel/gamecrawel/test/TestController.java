@@ -36,15 +36,15 @@ public class TestController {
     @Autowired
     LOLGameInfoDao lolGameInfoDao;
 
-    @RequestMapping("game_info/query")
-    public List<LOLGameInfoEntity> testGameInfo(){
-        return lolGameInfoDao.queryGameInfoList();
+//    @RequestMapping("game_info/query")
+//    public List<LOLGameInfoEntity> testGameInfo(){
+//        return lolGameInfoDao.queryGameInfoList();
     }
 
-    @RequestMapping(value = "game_info/insert", method = RequestMethod.POST)
-    public void testInsertGameInfo(@RequestBody LOLGameInfoEntity info){
-        lolGameInfoDao.insertGameInfoEntity(info);
-    }
+//    @RequestMapping(value = "game_info/insert", method = RequestMethod.POST)
+//    public void testInsertGameInfo(@RequestBody LOLGameInfoEntity info){
+//        lolGameInfoDao.insertGameInfoEntity(info);
+//    }
 
     @Autowired
     TestService testService;

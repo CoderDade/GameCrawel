@@ -1,6 +1,7 @@
 package com.dade.crawel.gamecrawel.service;
 
 import com.alibaba.fastjson.JSON;
+import com.dade.crawel.gamecrawel.dal.entity.LOLGameContextEntity;
 import com.dade.crawel.gamecrawel.dto.LOLGameContextDTO;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,9 +23,9 @@ import java.util.List;
 @PropertySource("classpath:http.properties")
 public class LOLGameContextService {
     @Value("${game_context_head}")
-    public String game_context_head;
+    private String game_context_head;
     @Value("${game_context_tail}")
-    public String game_context_tail;
+    private String game_context_tail;
 
     public LOLGameContextDTO getGameContextDTOByUserId(String userId){
         if (StringUtils.isEmpty(userId)){
@@ -50,7 +52,12 @@ public class LOLGameContextService {
         }
     }
 
-    // todo transform dto to entity
+    public List<LOLGameContextEntity> transformDTOToEntity(LOLGameContextDTO gameContextDTO){
+        if(gameContextDTO == null || gameContextDTO.getMsg() == null)
+            return Collections.emptyList();
+
+        return gameContextDTO.getMsg().getGames();
+    }
 
 
 }
