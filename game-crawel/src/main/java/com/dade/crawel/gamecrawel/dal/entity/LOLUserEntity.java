@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class LOLUserEntity {
-    String useId;
+    String userId;
     String name;
     String area;
     String icon;

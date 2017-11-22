@@ -46,7 +46,7 @@ public class LOLGameInfoService {
             if (StringUtils.isEmpty(strResult)){
                 return null;
             }
-            strResult = strResult.replace("var championKill=","");
+            strResult = strResult.replace("var championKill=","").replace(";","");
 
             LOLGameInfoDTO gameInfoDTO = JSON.parseObject(strResult, LOLGameInfoDTO.class);
             return gameInfoDTO;

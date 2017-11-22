@@ -44,7 +44,7 @@ public class LOLGameContextService {
             if (StringUtils.isEmpty(strResult)){
                 return null;
             }
-            strResult = strResult.replace("var matchList=","");
+            strResult = strResult.replace("var matchList=","").replace(";","");
             LOLGameContextDTO gameContextDTO = JSON.parseObject(strResult, LOLGameContextDTO.class);
             return gameContextDTO;
         }catch (Exception e){

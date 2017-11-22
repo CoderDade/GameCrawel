@@ -39,21 +39,21 @@ public class TestController {
 //    @RequestMapping("game_info/query")
 //    public List<LOLGameInfoEntity> testGameInfo(){
 //        return lolGameInfoDao.queryGameInfoList();
-    }
+//    }
 
 //    @RequestMapping(value = "game_info/insert", method = RequestMethod.POST)
 //    public void testInsertGameInfo(@RequestBody LOLGameInfoEntity info){
 //        lolGameInfoDao.insertGameInfoEntity(info);
 //    }
 
-    @Autowired
-    TestService testService;
+//    @Autowired
+//    TestService testService;
 
-    @RequestMapping("service")
-    public String testServiceForCall(){
-        String sercie = testService.testSercie();
-        return sercie;
-    }
+//    @RequestMapping("service")
+//    public String testServiceForCall(){
+//        String sercie = testService.testSercie();
+//        return sercie;
+//    }
 
 
 }

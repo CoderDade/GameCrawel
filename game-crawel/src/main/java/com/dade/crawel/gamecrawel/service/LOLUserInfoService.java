@@ -48,7 +48,7 @@ public class LOLUserInfoService {
             if(StringUtils.isEmpty(strResult)){
                 return null;
             }
-            strResult = strResult.replace("var retObj=", "");
+            strResult = strResult.replace("var retObj=", "").replace(";","");
             LOLUserInfoDTO lolUserInfoDTO = JSON.parseObject(strResult, LOLUserInfoDTO.class);
             return lolUserInfoDTO;
         }catch (Exception e){
@@ -61,12 +61,12 @@ public class LOLUserInfoService {
             return Collections.emptyList();
         }
         return infos.stream()
-                .filter(info->info.getMsg()!=null)
+                .filter(info->info!=null && info.getMsg()!=null)
                 .map(info-> {
                     LOLUserMsgDTO msg = info.getMsg();
                     LOLUserEntity entity = new LOLUserEntity();
                     BeanUtils.copyProperties(msg, entity);
-                    entity.setUseId(msg.getId());
+                    entity.setUserId(msg.getId());
                     try {
                         entity.setName(URLDecoder.decode(msg.getName(), "utf-8"));
                     } catch (UnsupportedEncodingException e) {

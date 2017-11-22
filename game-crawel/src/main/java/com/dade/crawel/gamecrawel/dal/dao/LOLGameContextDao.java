@@ -14,7 +14,7 @@ import java.util.Set;
 public interface LOLGameContextDao {
 
     @Insert("<script>" +
-            "insert into lol_game_context(game_id, platform_id, champion, queue, season" +
+            "insert into lol_game_context(game_id, platform_id, champion, queue, season, " +
             "timestamp, lane, role)" +
             "<foreach collection='gameContexts' index='index' item='item' open=' value ' " +
             "separator=',' close='' >" +
@@ -26,7 +26,7 @@ public interface LOLGameContextDao {
 
     @Select("<script>" +
             "select game_id from lol_game_context where 1=1 " +
-            "<foreach collection='gameIds' index='index' item='item' open=' and game_id not in(' " +
+            "<foreach collection='gameIds' index='index' item='item' open=' and game_id in(' " +
             "separator=',' close=')' >" +
             "#{item}" +
             "</foreach>" +
