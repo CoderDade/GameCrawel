@@ -1,5 +1,6 @@
 package com.dade.crawel.gamecrawel;
 
+import com.dade.crawel.gamecrawel.pool.LOLCrawelPool;
 import com.dade.crawel.gamecrawel.service.LOLCrawelService;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
@@ -31,6 +32,12 @@ public class GameCrawelApplicationTests {
 	@Test
 	public void run(){
 		lolCrawelService.crawel();
+	}
+
+	@Test
+	public void testPool(){
+		LOLCrawelPool pool = LOLCrawelPool.getInstance();
+		System.out.println(pool.getUserId());
 	}
 
 }
