@@ -1,6 +1,7 @@
 package com.dade.crawel.gamecrawel;
 
-import com.dade.crawel.gamecrawel.pool.LOLCrawelPool;
+import com.dade.crawel.gamecrawel.pool.LOLUserIdPool;
+import com.dade.crawel.gamecrawel.service.LOLCrawelParallelService;
 import com.dade.crawel.gamecrawel.service.LOLCrawelService;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
@@ -36,8 +37,17 @@ public class GameCrawelApplicationTests {
 
 	@Test
 	public void testPool(){
-		LOLCrawelPool pool = LOLCrawelPool.getInstance();
+		LOLUserIdPool pool = LOLUserIdPool.getInstance();
 		System.out.println(pool.getUserId());
 	}
+
+	@Autowired
+	LOLCrawelParallelService lolCrawelParallelService;
+
+	@Test
+	public void testRun(){
+		lolCrawelParallelService.threadRun();
+	}
+
 
 }

@@ -3,20 +3,20 @@ package com.dade.crawel.gamecrawel.service;
 import com.dade.crawel.gamecrawel.dal.dao.LOLUserInfoDao;
 import com.dade.crawel.gamecrawel.dal.entity.LOLUserEntity;
 import com.dade.crawel.gamecrawel.dto.LOLUserInfoDTO;
-import com.dade.crawel.gamecrawel.pool.LOLCrawelPool;
+import com.dade.crawel.gamecrawel.pool.LOLUserIdPool;
+import com.dade.crawel.gamecrawel.threads.LOLGameIdConsumer;
+import com.dade.crawel.gamecrawel.threads.LOLUserIdConsumer;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class LOLCrawelParallelService {
 
 
-    // todo thread and single design
+    // todo threads and single design
 
     @Autowired
     LOLUserInfoService userInfoService;
@@ -24,7 +24,8 @@ public class LOLCrawelParallelService {
     @Autowired
     LOLUserInfoDao userInfoDao;
 
-    public void consumeUserId(LOLCrawelPool pool){
+    public void consumeUserId(){
+        LOLUserIdPool pool = LOLUserIdPool.getInstance();
         while (true){
             String userId = pool.getUserId();
             LOLUserInfoDTO userInfoDTO = userInfoService.getUserInfoDTOByUserId(userId);
@@ -32,10 +33,47 @@ public class LOLCrawelParallelService {
             userInfoDao.insertUserInfoList(lolUserEntities);
         }
     }
-    public void produceGameId(LOLCrawelPool pool){
+    public void produceGameId(){
+        LOLUserIdPool pool = LOLUserIdPool.getInstance();
         while (true){
-            pool.getUserId()
+            pool.getUserId();
         }
+    }
+
+
+    public void threadRun(){
+
+        // todo threads start
+//        Thread userIdConsumer = new Thread(() -> {
+//            int count = 0;
+//            while(count<100){
+//                System.out.println("userIdConsumer: " + count++);
+//            }
+//        });
+//
+//        Thread gameIdConsumer = new Thread(() -> {
+//            int count = 0;
+//            while (count<100){
+//                System.out.println("gameIdConsumer: " + count++);
+//            }
+//        });
+
+//        userIdConsumer.start();
+//        try {
+//            userIdConsumer.sleep(1000*10);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        gameIdConsumer.start();
+
+        Thread userIdConsumer = new Thread(new LOLUserIdConsumer());
+        Thread gameIdConsumer = new Thread(new LOLGameIdConsumer());
+
+        System.out.println("-------------outsize start-----------");
+        userIdConsumer.start();
+        gameIdConsumer.start();
+        System.out.println("-------------outsize end-----------");
+
     }
 
 

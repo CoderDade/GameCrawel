@@ -1,21 +1,16 @@
 package com.dade.crawel.gamecrawel.pool;
 
-import com.google.common.collect.Sets;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-
-import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 
-public class LOLCrawelPool {
+public class LOLUserIdPool {
 
 //    private Set<String> userIdPool = Sets.newConcurrentHashSet();
 //    private Set<String> gameIdPool = Sets.newConcurrentHashSet();
 //
-    private static LOLCrawelPool instance = new LOLCrawelPool();
-    private LOLCrawelPool(){}
+    private static LOLUserIdPool instance = new LOLUserIdPool();
+    private LOLUserIdPool(){}
 
-    public static LOLCrawelPool getInstance(){
+    public static LOLUserIdPool getInstance(){
         return instance;
     }
 //
@@ -27,7 +22,6 @@ public class LOLCrawelPool {
 
     private int queueSize = 1000;
     private ArrayBlockingQueue<String> userIdQueue = new ArrayBlockingQueue<String>(queueSize);
-    private ArrayBlockingQueue<String> gameIdQueue = new ArrayBlockingQueue<String>(queueSize);
 
     public String getUserId(){
         String userId = null;
@@ -48,24 +42,7 @@ public class LOLCrawelPool {
         }
     }
 
-    public String getGameId(){
-        String gameId = null;
-        try {
-            gameId = gameIdQueue.take();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return gameId;
-    }
 
-    // todo change single userID TO userIds
-    public void setGameId(String userId){
-        try {
-            gameIdQueue.put(userId);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
 
 
