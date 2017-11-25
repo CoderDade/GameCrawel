@@ -1,5 +1,6 @@
 package com.dade.crawel.gamecrawel.pool;
 
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class LOLGameIdPool {
@@ -11,7 +12,7 @@ public class LOLGameIdPool {
         return instance;
     }
 
-    private int queueSize = 1000;
+    private int queueSize = 1000*1000;
     private ArrayBlockingQueue<String> gameIdQueue = new ArrayBlockingQueue<String>(queueSize);
 
 
@@ -32,6 +33,16 @@ public class LOLGameIdPool {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setGameIds(Set<String> gameIds){
+        gameIds.forEach(gameId -> {
+            try {
+                gameIdQueue.put(gameId);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 

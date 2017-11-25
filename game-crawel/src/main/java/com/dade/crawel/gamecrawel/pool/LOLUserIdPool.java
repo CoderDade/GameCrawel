@@ -1,5 +1,6 @@
 package com.dade.crawel.gamecrawel.pool;
 
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class LOLUserIdPool {
@@ -20,8 +21,9 @@ public class LOLUserIdPool {
 //        }
 //    }
 
-    private int queueSize = 1000;
+    private int queueSize = 1000*1000;
     private ArrayBlockingQueue<String> userIdQueue = new ArrayBlockingQueue<String>(queueSize);
+    private ArrayBlockingQueue<String> userGameIdQueue = new ArrayBlockingQueue<String>(queueSize);
 
     public String getUserId(){
         String userId = null;
@@ -33,13 +35,35 @@ public class LOLUserIdPool {
         return userId;
     }
 
+    public String getUserGameId(){
+        String userGameId = null;
+        try {
+            userGameId = userGameIdQueue.take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return userGameId;
+    }
+
     // todo change single userID TO userIds
     public void setUserId(String userId){
         try {
             userIdQueue.put(userId);
+            userGameIdQueue.put(userId);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setUserIds(Set<String> userIds){
+        userIds.forEach(userId->{
+            try {
+                userIdQueue.put(userId);
+                userGameIdQueue.put(userId);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 
